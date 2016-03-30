@@ -1,10 +1,7 @@
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    var priceMatcher = /\$\d+\.\d{1,2}/g
-    var matcher;
-    var textNode;
-
-    var observer = new MutationObserver(function(mutations, observer){
+function processPage(request){
+        var priceMatcher = /\$\d+\.\d{1,2}/g
+        var matcher;
+        var textNode;
         var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
         while (textNode = treeWalker.nextNode()){
             if(textNode.parentElement.tagName !== 'SCRIPT'){
@@ -14,12 +11,20 @@ chrome.runtime.onMessage.addListener(
                 }
             }
         }
+}
+
+chrome.runtime.onMessage.addListener(
+
+  function(request, sender, sendResponse) {
+    processPage(request);
+    var observer = new MutationObserver(function(mutations, observer){
+        processPage(request);
     })
 
     observer.observe(document, {
         subtree: true,
         attributes: true
     });
-    
+
     return true;
 });
