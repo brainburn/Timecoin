@@ -5,7 +5,7 @@ function sendTabMessage(message){
 }
 
 $(function() {
-    $('#b_poop').click(function(){
+    $('#b_convert').click(function(){
         var ys = parseFloat($('#yearly_salary').val());
         var hpw = parseFloat($('#hours_per_week').val());
         var dph = ys/(hpw*52);
